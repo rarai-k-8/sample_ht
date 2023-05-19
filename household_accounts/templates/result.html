@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        img {max-width: 1000px; max-height: 600px;}
+        .inline-block-elements {
+          display: flex;
+          align-items: flex-start;
+        }
+        .extracted {
+          display: flex;
+          align-items: flex-start;
+        }
+        .small_extracted {
+          margin: 10px;
+        }
+        table th td {
+          border: 2px solid black;
+        }
+    </style>
+    <title>Upload image</title>
+</head>
+<body>
+
+
+    <div class="inline-block-elements">
+      {% for img_path in img_path_list %}
+      <a class="image-link" href="ocr.html?img_path={{ img_path }}" data-img-path="{{ img_path }}"><img src="{{ img_path }}" alt="uploaded image"></a>
+      {% endfor %}
+      <div>
+        <h3 class="small_extracted">抽出情報</h3>
+        <div class="extracted">
+          <div class="small_extracted">
+            <h3>商品名と代金</h3>
+            {% for item_cost in item_cost_list %}
+              <p>{{item_cost}}</p>
+            {% endfor %}
+          </div>
+          <table class="small_extracted" border="2">
+            <tr>
+              <th><h3>購入日時</h3></th>
+              <th><h3>店名</h3></th>
+              <th><h3>商品名</h3></th>
+              <th><h3>分類</h3></th>
+              <th><h3>代金</h3></th>
+            </tr>
+            {% for icc in item_categorize_cost_list %}
+            <tr>
+              <td><p>{{nen_gatu_hi}}</p></td>
+              <td><p>{{store}}</p></td>
+              <td><p>{{icc[0]}}</p></td>
+              <td><p>{{icc[1]}}</p></td>
+              <td><p>{{icc[2]}}</p></td>
+            </tr>
+            {% endfor %}
+          </table>
+
+          <div class="small_extracted">
+            <h3>合計金額</h3>
+            {% if total_cost %}
+              <p>{{total_cost}}</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+      <h3>OCRの結果</h3>
+      <p>{{ ocr_text }}</p>
+    <!-- <form method="post" action="/ocr">
+      <input type="hidden" name="img_path" value="{{ img_path }}">
+      <button type="submit">OCR</button>
+    </form> -->
+    
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(function() {
+      $(".image-link").click(function() {
+        var imgPath = $(this).data("img-path");
+        $.ajax({
+          type: "POST",
+          url: "ocr.py",
+          data: {"img_path": imgPath},
+          success: function(response) {
+            console.log(response);
+          }
+        });
+      });
+    });
+    </script> -->
+    
+
+</body>
+</html>

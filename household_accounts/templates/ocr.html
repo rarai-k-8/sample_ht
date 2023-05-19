@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCR</title>
+</head>
+<body>
+    <h1>ocr</h1>
+    {% extends "result.html" %}
+    {% block content %}
+        <h1>OCR Result</h1>
+        {% if 'img_path' in request.args %}
+            <h2>Uploaded Image:</h2>
+            <img src="{{ request.args['img_path'] }}" alt="uploaded image">
+        {% endif %}
+        <!-- ここにOCRの結果を表示するコードを書く -->
+    {% endblock %}
+    
+
+        <!-- <script>
+            // URLパラメータから画像のパスを取得する
+            const urlParams = new URLSearchParams(window.location.search);
+            const imgPath = urlParams.get('img_path');
+
+            // 画像を表示する
+            const imgElement = document.createElement('img');
+            imgElement.setAttribute('src', imgPath);
+            document.body.appendChild(imgElement);
+
+        </script> -->
+        
+      
+</body>
+</html>
