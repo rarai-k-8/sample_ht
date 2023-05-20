@@ -1,7 +1,6 @@
 from flask import Flask, request, render_template
 # from get_file_list import get_input_path_list
 from cut_out_receipt import cut_out_receipts_main
-from ocr_defined import ocr_main
 from delete_image import delete
 from atosyori import Atosyori
 # from gui_show_receipt_contours import MakeFirstPage
@@ -14,11 +13,8 @@ import pyocr.builders
 import re
 import time
 from datetime import datetime
-from PIL import Image
+from PIL import Image, ImageEnhance, ImageFilter
 import glob
-import torch
-from word2vec import word2vec_BERT
-from vec_categorize import vec_categorize
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 # アップロードされたファイルを保存するディレクトリのパス
@@ -59,17 +55,31 @@ def upload_file():
         cut_out_receipts_main(saved_path)
         #cutした画像のパスを取得
         cut_out_path = glob.glob('src/household_accounts/templates/cut_out_receipt/*.png')
-        if cut_out_path:
+        if cut_out_path != []:
             cut_out_path_ = cut_out_path
         else:
             cut_out_path_ = glob.glob('src/original_receipt/*.JPG')
         img = Image.open(cut_out_path_[0])
         # img    
+        # グレースケール化する
+        img_gray = img.convert('L')
+        # 輝度の調整（コントラストと明るさを調整）
+        enhancer = ImageEnhance.Brightness(img_gray)
+        adjusted_image = enhancer.enhance(1.5)  # コントラストの倍率（1より大きい値でコントラストが増加）
+        
+        # エッジの検出
+        edges = adjusted_image.filter(ImageFilter.FIND_EDGES)
+        
+        # 二値化
+        img_binary = edges.point(lambda x: 255 if x > 128 else 0, '1')  
+        # 二値化する
+        threshold = 150  # しきい値
+        img_binary = img_gray.point(lambda x: 0 if x < threshold else 255, '1')
         #ここでocr
         #OCR
         tools = pyocr.get_available_tools()
         txt1 = tools[0].image_to_string(
-            img, 
+            img_binary, 
             lang='jpn',
             builder = pyocr.builders.TextBuilder(tesseract_layout=6)
             )

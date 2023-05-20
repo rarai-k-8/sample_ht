@@ -44,7 +44,7 @@ class Atosyori:
                 ryosyusyo = i
                 break
         for i, line in enumerate(self.lines):
-            if ('小' in line) or ('合' in line) or ('対象' in line):
+            if ('小' in line) or ('合' in line) or ('計' in line) or ('対象' in line):
                 stop = i
                 break
         for j, line in enumerate(self.lines[ryosyusyo:stop]):
@@ -56,6 +56,9 @@ class Atosyori:
         item_list = []
         cost_list = []
         for item_cost in item_cost_list:
+            if ('.' in item_cost) or (',' in item_cost):
+                item_cost = item_cost.replace('.', '')
+                item_cost = item_cost.replace(',', '')
             if "\\" in item_cost:
                 item_cost_splited = item_cost.split("\\")
             if 'y' in item_cost:
@@ -72,6 +75,9 @@ class Atosyori:
     def total_cost(self):
         total_cost = []
         for line in self.lines:
+            if ('.' in line) or (',' in line):
+                line = line.replace('.', '')
+                line = line.replace(',', '')
             if ('合' in line) or ('計' in line) or ('台' in line):
                 if "\\" in line:
                     total_cost.append(line.split("\\")[-1])

@@ -81,8 +81,8 @@ class GetReceiptContours:
         return rectangle_contours
 
     def draw_contours(self):
-        if len(self.rectangle_contours) == 0:
-            sys.exit("画像からレシートの外枠を検知できなかったので終了します")
+        # if len(self.rectangle_contours) == 0:
+        #     sys.exit("画像からレシートの外枠を検知できなかったので終了します")
         copy_input_file = self.input_file.copy()
         draw_contours_file = cv2.drawContours(
             copy_input_file, self.rectangle_contours, -1, (0, 0, 255, 255), 10
@@ -143,7 +143,6 @@ class GetEachReceiptImg(GetReceiptContours):
         dst = cv2.warpPerspective(
             self.input_file, M, (int(self.width), int(self.height))
         )
-        
         cv2.imwrite(
             "{}/receipt_{}_{}.png".format(
                 'src/household_accounts/templates/cut_out_receipt', self.input_filename, receipt_no
