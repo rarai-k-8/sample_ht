@@ -1,5 +1,4 @@
 import re
-import pandas as pd
 import torch
 from word2vec import word2vec_BERT
 from vec_categorize import vec_categorize

@@ -10,9 +10,6 @@ import io
 import base64
 import pyocr
 import pyocr.builders
-import re
-import time
-from datetime import datetime
 from PIL import Image, ImageEnhance, ImageFilter
 import glob
 app = Flask(__name__)
