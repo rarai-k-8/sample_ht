@@ -5,7 +5,7 @@ from delete_image import delete
 from atosyori import Atosyori
 # from gui_show_receipt_contours import MakeFirstPage
 import os
-from flask import Flask, request, render_template, redirect, session
+from flask import Flask, request, render_template
 import io
 import base64
 import pyocr
