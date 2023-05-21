@@ -20,4 +20,3 @@ sentencepiece==0.1.99
 pyocr==0.8.3
 Jinja2==3.1.2
 tokenizers==0.13.3
-transformers==4.29.1
