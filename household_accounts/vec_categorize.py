@@ -21,7 +21,10 @@ class Net(nn.Module):
     
 # インスタンス化
 net = Net().cpu().eval()
-net.load_state_dict(torch.load('src/household_accounts/word_categorize.pt', map_location=torch.device('cpu')))
+# CPU 版
+# net.load_state_dict(torch.load('../word_categorize.pt', map_location=torch.device('cpu')))
+# GPU 版
+net.load_state_dict(torch.load('/app/household_accounts/word_categorize.pt'))
 categories = ['食料', '衣服', '趣味', '日用品', '家電', '家具']
 def vec_categorize(vector):
     # 予測値の算出
@@ -31,6 +34,9 @@ def vec_categorize(vector):
     y = F.softmax(y, dim=1)
     # 予測ラベル
     y = torch.argmax(y)
-    category_number = y.to('cpu').detach().numpy().copy()
+    # CPU 版
+    # category_number = y.to('cpu').detach().numpy().copy()
+    # GPU 版
+    category_number = y.detach().numpy().copy()
     category = categories[category_number]
     return category
